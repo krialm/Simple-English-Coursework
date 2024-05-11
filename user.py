@@ -80,10 +80,11 @@ class App(AppConfigurator, metaclass=SingletonMeta): # UserConfigurator, ABC, me
 
     # полиморфизм
     def create_user(self):
+        self.root.destroy()
         self.df = pd.read_excel(f'topics/{self.topics_var.get()}.xlsx') # инкапсуляция
         with open(self.user_data_path, "w") as file:
+            print(self.timer.get(), self.topics_var.get())
             json.dump({'topic': self.topics_var.get(), 'timer': self.timer.get(), 'window_position': self.window_position}, file)
-        self.root.destroy()
         self.start_app()
 
     def setting_window(self):
@@ -99,9 +100,10 @@ class App(AppConfigurator, metaclass=SingletonMeta): # UserConfigurator, ABC, me
         frame = customtkinter.CTkFrame(self.root) # часть в окне со всеми хуйнюшками 
         frame.pack(fill='both', expand=True) # запихиваем зуйнбшку в окно
 
-        self.timer = StringVar(value=self.timer)
-        self.topics_var = StringVar(value=self.topics[0]) 
 
+        self.timer = StringVar(value="5")
+        self.topics_var = StringVar(value=self.topics[0]) 
+    
         choose_topic_label = customtkinter.CTkLabel(frame, text="Choose the topic:")
         choose_topic_label.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky=W)  
         combobox = customtkinter.CTkComboBox(frame,width=170, variable=self.topics_var, values=self.topics)
@@ -116,7 +118,7 @@ class App(AppConfigurator, metaclass=SingletonMeta): # UserConfigurator, ABC, me
 
 
     def get_word(self):
-        word_ind = randint(0, len(self.df))
+        word_ind = randint(0, len(self.df)-1)
         while True:
             if word_ind not in self.words_indexes:
                 self.words_indexes.append(word_ind)
@@ -125,12 +127,20 @@ class App(AppConfigurator, metaclass=SingletonMeta): # UserConfigurator, ABC, me
 
     def start_timer(self):
         self.root.withdraw()
+        self.root.destroy()
         if self.is_new_user: 
             self.root.after(int(60*float(self.timer.get())*1000), self.start_app)
         else:
             self.root.after(int(60*float(self.timer)*1000), self.start_app)
 
     
+    def set_net_parameters(self):
+            
+        self.is_new_user = True
+        self.root.withdraw()
+        self.root.destroy()
+        self.setting_window()
+
     def start_app(self):
         self.root = customtkinter.CTk() 
         self.root.title("Simple Dimple English🍪")
@@ -140,11 +150,13 @@ class App(AppConfigurator, metaclass=SingletonMeta): # UserConfigurator, ABC, me
         word_ind = self.get_word() # рандомное слово которое не использовалось
         label_font = ("Arial", 14, "bold")
         word = customtkinter.CTkLabel(frame, text=f'{self.df.iat[word_ind, 0]}', font=label_font)# инкапсуляция
-        word.grid(row=0, column=0, sticky='e', padx=10, pady=10)  
+        word.grid(row=0, column=0, pady=10)  
         translation = customtkinter.CTkLabel(frame, text=f'{self.df.iat[word_ind, 1]}', font=label_font)# инкапсуляция
-        translation.grid(row=0, column=2, sticky='e', padx=10, pady=10)
+        translation.grid(row=0, column=1, padx=10, pady=10)
         got_it_button = customtkinter.CTkButton(frame, text="Got It!", command=self.start_timer)
-        got_it_button.grid(column=1, row=3, pady=20) 
+        got_it_button.grid(column=0, row=3, padx=20) 
+        change_parameters = customtkinter.CTkButton(frame, text="Change parameters", command=self.set_net_parameters)
+        change_parameters.grid(column=1, row=3, padx=20) 
         self.root.mainloop()
 
 if __name__ == '__main__':
