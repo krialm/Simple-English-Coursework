@@ -125,13 +125,16 @@ class App(AppConfigurator, metaclass=SingletonMeta): # UserConfigurator, ABC, me
                 return word_ind
             word_ind = randint(0, len(self.df))
 
+    def go_back(self):
+        self.root.destroy()
+        self.start_app()
+
     def start_timer(self):
         self.root.withdraw()
-        self.root.destroy()
         if self.is_new_user: 
-            self.root.after(int(60*float(self.timer.get())*1000), self.start_app)
+            self.root.after(int(60*float(self.timer.get())*1000), self.go_back)
         else:
-            self.root.after(int(60*float(self.timer)*1000), self.start_app)
+            self.root.after(int(60*float(self.timer)*1000), self.go_back)
 
     
     def set_net_parameters(self):
