@@ -117,7 +117,7 @@ class AppConfigurator(ABC):
 #### 1. Singleton:
 - This pattern is implemented through the SingletonMeta metaclass. This metaclass restricts the creation of the App class to a single instance throughout the program's lifetime. Here's why this is beneficial:
 
-``` pytyhon 
+``` python
 class SingletonMeta(ABCMeta):
     _instances = {}
     def __call__(cls, *args, **kwargs):
