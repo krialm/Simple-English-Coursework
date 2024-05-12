@@ -152,8 +152,6 @@ import unittest
 import pandas as pd
 from user import App
 
-
-# из-зи того что у нас граф юзер интерфейс мы не можем так просто протестировать весь функционал 
 class TestApp(unittest.TestCase):
 
 
