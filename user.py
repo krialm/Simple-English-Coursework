@@ -6,7 +6,6 @@ import os
 import json
 from abc import ABC, abstractmethod, ABCMeta
 
-# хуйня для полиморфизма что-бы использовать функционал и переписовать методы в других классах
 class AppConfigurator(ABC):
     @abstractmethod # декоратор используем фунции только всередине
     def load_user_data(self, filename):
@@ -24,7 +23,6 @@ class AppConfigurator(ABC):
     def setting_window(self):
         pass
 
-# хуйня которая проверяет что был создан только один обект класса
 class SingletonMeta(ABCMeta):
     _instances = {}
     def __call__(cls, *args, **kwargs):
@@ -37,15 +35,15 @@ class App(AppConfigurator, metaclass=SingletonMeta): # UserConfigurator, ABC, me
     def __init__(self):
         customtkinter.set_appearance_mode("Dark") 
         self.df = pd.DataFrame() # датафрейм - структура данных в которой храняться слова
-        self.timer = 5 # эта хуйня испольуеться дальше в этом класе по этому это инкапсуляция
+        self.timer = 5
         self.words_indexes = []
-        self.window_width = 400 # эта хуйня испольуеться дальше в этом класе по этому это инкапсуляция
-        self.window_height = 120 # эта хуйня испольуеться дальше в этом класе по этому это инкапсуляция
+        self.window_width = 400 
+        self.window_height = 120 
         self.is_new_user = True 
         self.user_data_path = 'user_data.json'
         files = os.listdir('topics')
         self.topics = []
-        # убираем из названия файлов .xlsx
+        
         for i in files:
             self.topics.append(i.replace('.xlsx', ''))
         
@@ -98,7 +96,7 @@ class App(AppConfigurator, metaclass=SingletonMeta): # UserConfigurator, ABC, me
         self.root.geometry(f'400x120+{self.window_position}') # размер и позиция окна
         
         frame = customtkinter.CTkFrame(self.root) # часть в окне со всеми хуйнюшками 
-        frame.pack(fill='both', expand=True) # запихиваем зуйнбшку в окно
+        frame.pack(fill='both', expand=True) 
 
 
         self.timer = StringVar(value="5")
