@@ -1,7 +1,7 @@
 # Simple-Dimle-English Course Work Report
 ## 1. Introduction
 
-### a. What is Simple-Dimle-English?
+### a. What is your application?
 
 Simple-Dimle-English is a simple English learning tool which can make your English study journey more enjoyable and efficient. It uses a graphical user interface to display random words from a selected topic to the user.
 
@@ -113,8 +113,8 @@ class AppConfigurator(ABC):
         pass
 ```
 
-## Used design patterns: 
-### 1. Singleton:
+### Used design patterns: 
+#### 1. Singleton:
 - This pattern is implemented through the SingletonMeta metaclass. This metaclass restricts the creation of the App class to a single instance throughout the program's lifetime. Here's why this is beneficial:
 
 ``` python
@@ -127,7 +127,7 @@ class SingletonMeta(ABCMeta):
         return cls._instances[cls]
 ```
 
-### 2. Decorator:
+#### 2. Decorator:
 
 - Using decoration pattern we created and modifyed method from AppConfigurator class and used decoratos do define abstract methods.
 
@@ -152,6 +152,8 @@ import unittest
 import pandas as pd
 from user import App
 
+
+# из-зи того что у нас граф юзер интерфейс мы не можем так просто протестировать весь функционал 
 class TestApp(unittest.TestCase):
 
 
