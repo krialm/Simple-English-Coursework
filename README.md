@@ -1,4 +1,4 @@
-# Simple-Dimle-English Course Work Report
+# Simple-English Course Work Report
 ## 1. Introduction
 
 ### a. What is your application?
